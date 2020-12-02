@@ -1,14 +1,29 @@
-def find_summands(data):
+def find_two_summands(data):
     x_1 = 0
-    length = len(data)
-    while x_1 < length:
-        x_2 = x_1 + 1
+    x_2 = 1
+    while x_1 < len(data):
         while data[x_1] + data[x_2] <= 2020:
             if data[x_1] + data[x_2] == 2020:
-                return data[x_1], data[x_2]
-            else:
-                x_2 = x_2 + 1
+                return data[x_1] * data[x_2]
+            x_2 = x_2 + 1
         x_1 = x_1 + 1
+        x_2 = x_1 + 1
+
+
+def find_three_summands(data):
+    x_1 = 0
+    x_2 = 1
+    x_3 = 2
+    while x_1 < len(data):
+        while data[x_1] + data[x_2] + data[x_3] <= 2020:
+            while data[x_1] + data[x_2] + data[x_3] <= 2020:
+                if data[x_1] + data[x_2] + data[x_3] == 2020:
+                    return data[x_1] * data[x_2] * data[x_3]
+                x_3 = x_3 + 1
+            x_2 = x_2 + 1
+            x_3 = x_2 + 1
+        x_1 = x_1 + 1
+        x_2 = x_1 + 1
 
 
 if __name__ == '__main__':
@@ -16,10 +31,7 @@ if __name__ == '__main__':
     data = list(map(int, file.readlines()))
     data.sort()
 
-    summands = find_summands(data)
-
-    answer = summands[0] * summands[1]
-
-    print(answer)
+    print("first answer: " + str(find_two_summands(data)))
+    print("second answer: " + str(find_three_summands(data)))
 
     file.close()
