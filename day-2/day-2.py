@@ -1,6 +1,5 @@
 def validate_passwords():
-    first_counter = 0
-    second_counter = 0
+    first_counter, second_counter = 0, 0
     for line in file.readlines():
         hyphen_index = line.find("-")
         colon_index = line.find(":")
@@ -14,7 +13,7 @@ def validate_passwords():
         if first_number <= number_of_occurrence <= second_number:
             first_counter = first_counter + 1
 
-        if (password[first_number - 1] == letter or password[second_number - 1] == letter) and password[first_number - 1] != password[second_number - 1]:
+        if (password[first_number - 1] == letter) != (password[second_number - 1] == letter):
             second_counter = second_counter + 1
 
     return first_counter, second_counter
