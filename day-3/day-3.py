@@ -4,7 +4,7 @@ def count_trees(data, right_step_size, down_step_size):
     for line in data[down_step_size::down_step_size]:
         current_position = current_position + right_step_size
         if line[current_position % line_length] == "#":
-            counter = counter + 1
+            counter += 1
     return counter
 
 

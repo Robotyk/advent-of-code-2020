@@ -1,28 +1,25 @@
 def find_two_summands(data):
-    x_1 = 0
-    x_2 = 1
+    x_1, x_2 = 0, 1
     while x_1 < len(data):
         while data[x_1] + data[x_2] <= 2020:
             if data[x_1] + data[x_2] == 2020:
                 return data[x_1] * data[x_2]
-            x_2 = x_2 + 1
-        x_1 = x_1 + 1
+            x_2 += 1
+        x_1 += 1
         x_2 = x_1 + 1
 
 
 def find_three_summands(data):
-    x_1 = 0
-    x_2 = 1
-    x_3 = 2
+    x_1, x_2, x_3 = 0, 1, 2
     while x_1 < len(data):
         while data[x_1] + data[x_2] + data[x_3] <= 2020:
             while data[x_1] + data[x_2] + data[x_3] <= 2020:
                 if data[x_1] + data[x_2] + data[x_3] == 2020:
                     return data[x_1] * data[x_2] * data[x_3]
-                x_3 = x_3 + 1
-            x_2 = x_2 + 1
+                x_3 += 1
+            x_2 += 1
             x_3 = x_2 + 1
-        x_1 = x_1 + 1
+        x_1 += 1
         x_2 = x_1 + 1
 
 

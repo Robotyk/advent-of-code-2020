@@ -29,12 +29,13 @@ if __name__ == '__main__':
 
     for passport in data:
         if re.match("^(19[2-9]\d|200[0-2])$", passport.get("byr")) \
-                and re.match("^(201[0-9]|2020)$", passport.get("iyr")) \
-                and re.match("^(202[0-9]|2030)$", passport.get("eyr")) \
+                and re.match("^(201\d|2020)$", passport.get("iyr")) \
+                and re.match("^(202\d|2030)$", passport.get("eyr")) \
                 and re.match("^(1[5-8]\dcm|19[0-3]cm|59in|6\din|7[0-6]in)$", passport.get("hgt")) \
-                and re.match("^#([\da-zA-Z]){6}$", passport.get("hcl")) \
+                and re.match("^#([\da-f]){6}$", passport.get("hcl")) \
                 and re.match("^(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)$", passport.get("ecl")) \
                 and re.match("^\d{9}$", passport.get("pid")):
-            valid_passports_quantity = valid_passports_quantity + 1
+
+            valid_passports_quantity += 1
 
     print("Second part answer: " + str(valid_passports_quantity))

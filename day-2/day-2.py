@@ -11,10 +11,10 @@ def validate_passwords():
 
         number_of_occurrence = password.count(letter)
         if first_number <= number_of_occurrence <= second_number:
-            first_counter = first_counter + 1
+            first_counter += 1
 
         if (password[first_number - 1] == letter) != (password[second_number - 1] == letter):
-            second_counter = second_counter + 1
+            second_counter += 1
 
     return first_counter, second_counter
 
