@@ -13,22 +13,54 @@ def count_one_and_three_diff():
     return one_jolt_diff, three_jolt_diff
 
 
-# def build_tree(root, element):
-#     if len(root[1]) == 0:
-#         return
-#     for child in root[1]:
-#         if 1 <= (element[0] - child[0]) <= 3 and element[0] not in [x[0] for x in child[1]]:
-#             child[1].append(element)
-#         build_tree(child, (element[0], []))
-#
-#
-# def count_routes(root, counter):
-#     if len(root[1]) == 0:
-#         counter += 1
-#         return counter
-#     for child in root[1]:
-#         counter = count_routes(child, counter)
-#     return counter
+class Node:
+    def __init__(self, value, children):
+        self.value = value
+        self.children = children
+
+
+def build_nodes():
+    nodes = []
+    i = 0
+    while i < len(data) - 1:
+        children = []
+        if i < len(data) - 1 and data[i + 1] - data[i] <= 3:
+            children.append(Node(data[i + 1], []))
+        if i < len(data) - 2 and data[i + 2] - data[i] <= 3:
+            children.append(Node(data[i + 2], []))
+        if i < len(data) - 3 and data[i + 3] - data[i] <= 3:
+            children.append(Node(data[i + 3], []))
+        if len(children) > 1:
+            nodes.append(Node(data[i], children))
+        i += 1
+
+    return nodes
+
+
+def connect_nodes_into_trees():
+    trees = []
+    i = len(nodes) - 1
+    while i >= 0:
+        is_unique = True
+        for node in nodes:
+            for child in node.children:
+                if nodes[i].value == child.value:
+                    is_unique = False
+                    child.children.extend(nodes[i].children)
+
+        if is_unique:
+            trees.append(nodes[i])
+
+        i -= 1
+    return trees
+
+
+def count_paths(root, counter=0):
+    if len(root.children) == 0:
+        return counter + 1
+    for child in root.children:
+        counter = count_paths(child, counter)
+    return counter
 
 
 if __name__ == '__main__':
@@ -40,66 +72,11 @@ if __name__ == '__main__':
     print("First part answer: " + str(count_one_and_three_diff()[0] * count_one_and_three_diff()[1]))
 
     data.insert(0, 0)
-    data.append(data[len(data) - 1] +  3)
-    super_count = 1
-    prev_count = 1
-    prev_prev_count = 1
-    prev_prev_prev_count = 1
-    for i in range(len(data) - 3):
-        count = 0
-        if data[i + 1] - data[i] <= 3:
-            count += 1
-        if data[i + 2] - data[i] <= 3:
-            count += 1
-        if data[i + 3] - data[i] <= 3:
-            count += 1
-        super_count += count * prev_count + count * prev_prev_count + count * prev_prev_prev_count
-        prev_prev_prev_count = prev_prev_count
-        prev_prev_count = prev_count
-        prev_count = count
-    print(super_count)
+    data.append(data[len(data) - 1] + 3)
+    nodes = build_nodes()
+    trees = connect_nodes_into_trees()
+    routes_quantity = 1
+    for x in trees:
+        routes_quantity *= count_paths(x)
 
-
-
-    # first
-    #
-    # first_element = (data[0], [])
-    # root = (-1, [first_element])
-    # data.append(data[len(data) - 1] + 3)
-    #
-    # print(len(data))
-    # for i in range(1, len(data)):
-    #     print(i)
-    #     build_tree(root, (data[i], []))
-    #     i += 1
-    #
-    # tree_end = data[len(data) - 1]
-    # print(count_routes(root, 0))
-
-    # second
-    #
-    # routes = [[0]]
-    # data.append(data[len(data) - 1] + 3)
-    #
-    # for i in range(len(data)):
-    #     print(i)
-    #     unique_routes = []
-    #     for route in routes:
-    #         if route not in unique_routes:
-    #             unique_routes.append(route)
-    #     routes = unique_routes
-    #     routes_size = len(routes)
-    #     for j in range(routes_size):
-    #         route_len = len(routes[j])
-    #         if data[i] - routes[j][route_len - 1] <= 3:
-    #             routes[j].append(data[i])
-    #         if route_len >= 2 and data[i] - routes[j][route_len - 2] <= 3:
-    #             temp = routes[j][:-2]
-    #             temp.append(data[i])
-    #             routes.append(temp)
-    #         if route_len >= 3 and data[i] - routes[j][route_len - 3] <= 3:
-    #             temp = routes[j][:-3]
-    #             temp.append(data[i])
-    #             routes.append(temp)
-    #
-    # print(len(routes))
+    print("Second part answer: " + str(routes_quantity))
